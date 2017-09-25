@@ -20,6 +20,15 @@ lib.dialog('/',
     new SimpleWaterfallDialog([
         // First message
         function (session, args, next) {
+            
+            
+            session.send("OKE I am hereeeeeeeeeeeeee ")
+            
+            var solr = require('solr-client');
+            session.send("solr client has no problem")
+            
+            
+            
             session.send('choose_category');
             next();
         },
