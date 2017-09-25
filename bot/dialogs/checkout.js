@@ -5,6 +5,7 @@ var siteUrl = require('../site-url');
 var orderService = require('../../services/orders');
 
 // Checkout flow
+var LeaveMessage = 'leave';
 var RestartMessage = 'restart';
 var StartOver = 'start_over';
 var KeepGoing = 'continue';
@@ -22,24 +23,26 @@ lib.dialog('/', [
         }
 
         // Serialize user address
-        var addressSerialized = botUtils.serializeAddress(session.message.address);
+        //var addressSerialized = botUtils.serializeAddress(session.message.address);
 
         // Create order (with no payment - pending)
         orderService.placePendingOrder(order).then(function (order) {
 
             // Build Checkout url using previously stored Site url
             var checkoutUrl = util.format(
-                '%s/checkout?orderId=%s&address=%s',
+                '%s/checkout?orderId=%s',
                 siteUrl.retrieve(),
                 encodeURIComponent(order.id),
-                encodeURIComponent(addressSerialized));
+                //encodeURIComponent(addressSerialized
+            );
 
             var messageText = session.gettext('final_price', order.selection.price);
             var card = new builder.HeroCard(session)
                 .text(messageText)
                 .buttons([
                     builder.CardAction.openUrl(session, checkoutUrl, 'add_credit_card'),
-                    builder.CardAction.imBack(session, session.gettext(RestartMessage), RestartMessage)
+                    builder.CardAction.imBack(session, session.gettext(RestartMessage), RestartMessage),
+                    builder.CardAction.imBack(session, session.gettext(LeaveMessage), LeaveMessage)
                 ]);
 
             session.send(new builder.Message(session)
@@ -47,20 +50,12 @@ lib.dialog('/', [
         });
     },
     function (session, args) {
-        builder.Prompts.choice(session, 'select_how_to_continue', [
-            session.gettext(StartOver),
-            session.gettext(KeepGoing),
-            session.gettext(Help)
-        ]);
-    },
-    function (session, args) {
-        switch (args.response.entity) {
-            case KeepGoing:
-                return session.reset();
-            case StartOver:
-                return session.reset('/');
-            case Help:
-                return session.beginDialog('help:/');
+        if (session.message.text ==  session.gettext( RestartMessage)){
+            return session.beginDialog('shop:/')
+        }
+        else if (session.message.text ==  session.gettext( LeaveMessage)){
+        
+            return session.endDialog('Good Bye! Have a nice day :)')
         }
     }
 ]);
@@ -79,10 +74,11 @@ lib.dialog('completed', function (session, args, next) {
         var messageText = session.gettext(
             'order_details',
             order.id,
-            order.selection.name,
-            order.details.recipient.firstName,
-            order.details.recipient.lastName,
-            order.details.note);
+            order.selection.name
+            //order.details.recipient.firstName,
+            //order.details.recipient.lastName,
+            //order.details.note
+        );
 
         var receiptCard = new builder.ReceiptCard(session)
             .title(order.paymentDetails.creditcardHolder)
