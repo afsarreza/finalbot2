@@ -23,7 +23,7 @@ lib.dialog('/', [
         }
 
         // Serialize user address
-        var addressSerialized = botUtils.serializeAddress(session.message.address);
+        //var addressSerialized = botUtils.serializeAddress(session.message.address);
 
         // Create order (with no payment - pending)
         orderService.placePendingOrder(order).then(function (order) {
@@ -33,7 +33,7 @@ lib.dialog('/', [
                 '%s/checkout?orderId=%s',
                 siteUrl.retrieve(),
                 encodeURIComponent(order.id),
-                encodeURIComponent(addressSerialized)
+                //encodeURIComponent(addressSerialized
             );
 
             var messageText = session.gettext('final_price', order.selection.price);
