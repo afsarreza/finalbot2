@@ -10,8 +10,8 @@ var botUtils = require('./bot/utils');
 router.get('/', function (req, res, next) {
   // orderId and user address
   var orderId = req.query.orderId;
-  var address = botUtils.deserializeAddress(req.query.address);
-  console.log('user address is', address);
+  //var address = botUtils.deserializeAddress(req.query.address);
+  //console.log('user address is', address);
 
   orderService.retrieveOrder(orderId).then(function (order) {
     // Check order exists
@@ -22,19 +22,19 @@ router.get('/', function (req, res, next) {
     // Check order if order is already processed
     if (order.payed) {
       // Dispatch completion dialog
-      bot.beginDialog(address, 'checkout:completed', { orderId: orderId });
+      bot.beginDialog('checkout:completed', { orderId: orderId });
 
       // Show completion
       return res.render('checkout/completed', {
-        title: 'Contoso Flowers - Order Processed',
+        title: 'Algonox Technologies - Order Processed',
         order: order
       });
     }
 
     // Payment form
     return res.render('checkout/index', {
-      title: 'Contoso Flowers - Order Checkout',
-      address: req.query.address,
+      title: 'Algonox Technologies - Order Checkout',
+      //address: req.query.address,
       order: order
     });
 
@@ -48,8 +48,8 @@ router.get('/', function (req, res, next) {
 router.post('/', function (req, res, next) {
   // orderId and user address
   var orderId = req.body.orderId;
-  var address = botUtils.deserializeAddress(req.body.address);
-  console.log('user address is', address);
+  //var address = botUtils.deserializeAddress(req.body.address);
+  //console.log('user address is', address);
 
   // Payment information
   var paymentDetails = {
