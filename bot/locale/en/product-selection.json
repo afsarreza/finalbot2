@@ -4,7 +4,7 @@
     "select": "Select: ",
     "unknown_option": "I couldn't understand your selection. Please try again.",
     "choose_category": "Please select a category:",
-    "choose_bouquet_from_category": "Please select a bouquet for \"%s\" category:",
+    "choose_bouquet_from_category": "Please select an item from \"%s\" category:",
     "view_bouquets": "View bouquets",
     "choose_this": "Select"
 }

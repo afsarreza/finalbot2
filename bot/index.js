@@ -6,9 +6,9 @@ var connector = new builder.ChatConnector({
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
 
-// Welcome Dialog
+// Welcome  Dialog
 var MainOptions = {
-    Shop: 'main_options_order_flowers',
+    Shop: 'main_options_order_shopping',
     Support: 'main_options_talk_to_support'
 };
 
@@ -24,8 +24,8 @@ var bot = new builder.UniversalBot(connector, function (session) {
         .subtitle('welcome_subtitle')
         .images([
             new builder.CardImage(session)
-                .url('https://placeholdit.imgix.net/~text?txtsize=56&txt=Contoso%20Flowers&w=640&h=330')
-                .alt('contoso_flowers')
+                .url('https://i.ytimg.com/vi/b6ogZ2XW55k/maxresdefault.jpg')
+                .alt('Algonox Bot')
         ])
         .buttons([
             builder.CardAction.imBack(session, session.gettext(MainOptions.Shop), MainOptions.Shop),
@@ -37,7 +37,7 @@ var bot = new builder.UniversalBot(connector, function (session) {
 });
 
 // Enable Conversation Data persistence
-bot.set('persistConversationData', true);
+bot.set('persistConversationData', false);
 
 // Set default locale
 bot.set('localizerSettings', {
@@ -69,10 +69,18 @@ bot.use({
         if (settingsRegex.test(text)) {
             // interrupt and trigger 'settings' dialog 
             return session.beginDialog('settings:/');
+            
         } else if (supportRegex.test(text)) {
             // interrupt and trigger 'help' dialog
             return session.beginDialog('help:/');
+            //return session.beginDialog('shop:/');
         }
+        //else if (restartRegex.test(text)){
+            //session.send("TYPED restart")
+            //builder.Prompts.choice(session, "Are you sure you wish to restart?", "Yes|No", { listStyle: 3 });
+            //session.beginDialog("restart:/");
+
+        
 
         // continue normal flow
         next();
@@ -89,6 +97,20 @@ bot.on('conversationUpdate', function (message) {
         });
     }
 });
+
+bot.dialog('restart',function (session, args, next) {
+
+    //builder.Prompts.choice(session, "Are you sure you wish to restart?", "Yes|No", { listStyle: 3 });
+    return session.beginDialog("/");
+})
+.triggerAction({
+    matches: /^restart$/i
+});
+
+
+
+
+
 
 // Cache of localized regex to match selection from main options
 var LocalizedRegexCache = {};

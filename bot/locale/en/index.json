@@ -1,10 +1,11 @@
 {
-    "welcome_title": "Welcome to the Contoso Flowers",
-    "welcome_subtitle": "These are the flowers you are looking for!",
-    "contoso_flowers": "Contoso Flowers",
-    "main_options_order_flowers": "Order flowers",
-    "main_options_talk_to_support": "Talk to support",
+    "welcome_title": "Hi I am Retail Bot",
+    "welcome_subtitle": "You can enquire and shop here!",
+    "contoso_flowers": "ALGONOX TECHNOLOGIES",
+    "main_options_order_shopping": "Go Shopping!",
+    "main_options_talk_to_support": "Leave",
+    "restart":"Restart",
     "main_options_settings": "Settings",
     "help": "Help",
-    "thank_you": "Support will contact you shortly. Have a nice day :)"
+    "thank_you": "Good Bye! Have a nice day :)"
 }
