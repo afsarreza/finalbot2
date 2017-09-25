@@ -24,8 +24,12 @@ lib.dialog('/',
             
             session.send("OKE I am hereeeeeeeeeeeeee ")
             
+            //var solr = require('solr-client');
+            var Client = require('node-rest-client').Client;
             var solr = require('solr-client');
-            session.send("solr client has no problem")
+            var SolrQueryBuilder = require('solr-query-builder');
+            
+            session.send("COOOOOOOOLLLL NOTHING HAS PROBLEM")
             
             
             
