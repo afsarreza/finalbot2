@@ -60,7 +60,7 @@ router.post('/', function (req, res, next) {
   orderService.confirmOrder(orderId, paymentDetails).then(function (processedOrder) {
 
     // Dispatch completion dialog
-    bot.beginDialog( 'checkout:completed', { orderId: orderId });
+    bot.beginDialog( 'checkout:completed',{ orderId: orderId });
 
     // Show completion
     return res.render('checkout/completed', {
