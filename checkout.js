@@ -26,14 +26,14 @@ router.get('/', function (req, res, next) {
 
       // Show completion
       return res.render('checkout/completed', {
-        title: 'Contoso Flowers - Order Processed',
+        title: 'AlgonoxTechnologies - Order Processed',
         order: order
       });
     }
 
     // Payment form
     return res.render('checkout/index', {
-      title: 'Contoso Flowers - Order Checkout',
+      title: 'AlgonoxTechnologies - Order Checkout',
       order: order
     });
 
@@ -64,7 +64,7 @@ router.post('/', function (req, res, next) {
 
     // Show completion
     return res.render('checkout/completed', {
-      title: 'Contoso Flowers - Order processed',
+      title: 'AlgonoxTechnologies - Order processed',
       order: processedOrder
     });
 
