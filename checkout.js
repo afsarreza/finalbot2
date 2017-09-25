@@ -10,7 +10,7 @@ var botUtils = require('./bot/utils');
 router.get('/', function (req, res, next) {
   // orderId and user address
   var orderId = req.query.orderId;
-  //var address = botUtils.deserializeAddress(req.query.address);
+  var address = botUtils.deserializeAddress(req.query.address);
   //console.log('user address is', address);
 
   orderService.retrieveOrder(orderId).then(function (order) {
@@ -22,7 +22,7 @@ router.get('/', function (req, res, next) {
     // Check order if order is already processed
     if (order.payed) {
       // Dispatch completion dialog
-      bot.beginDialog('checkout:completed', { orderId: orderId });
+      bot.beginDialog( address,'checkout:completed', { orderId: orderId });
 
       // Show completion
       return res.render('checkout/completed', {
@@ -34,7 +34,6 @@ router.get('/', function (req, res, next) {
     // Payment form
     return res.render('checkout/index', {
       title: 'Algonox Technologies - Order Checkout',
-      //address: req.query.address,
       order: order
     });
 
@@ -48,7 +47,7 @@ router.get('/', function (req, res, next) {
 router.post('/', function (req, res, next) {
   // orderId and user address
   var orderId = req.body.orderId;
-  //var address = botUtils.deserializeAddress(req.body.address);
+ var address = botUtils.deserializeAddress(req.body.address);
   //console.log('user address is', address);
 
   // Payment information
@@ -61,7 +60,7 @@ router.post('/', function (req, res, next) {
   orderService.confirmOrder(orderId, paymentDetails).then(function (processedOrder) {
 
     // Dispatch completion dialog
-    bot.beginDialog(address, 'checkout:completed', { orderId: orderId });
+    bot.beginDialog( 'checkout:completed', { orderId: orderId });
 
     // Show completion
     return res.render('checkout/completed', {
