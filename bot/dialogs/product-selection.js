@@ -1,6 +1,8 @@
+
 var _ = require('lodash');
 var builder = require('botbuilder');
 var products = require('../../services/products');
+//var products = require('../../services/AllProducts');
 var SimpleWaterfallDialog = require('./SimpleWaterfallDialog');
 var CarouselPagination = require('./CarouselPagination');
 
@@ -15,6 +17,7 @@ var carouselOptions = {
 var Client = require('node-rest-client').Client;
 var solr = require('solr-client');
 var SolrQueryBuilder = require('solr-query-builder');
+var SolrNode = require('solr-node');
 
 var client = new Client();
 
@@ -58,7 +61,13 @@ lib.dialog('/',
                         search_qry.push(data[i]['object']);
                     }
                     //console.log(search_qry);
+                    search_qry.sort(function(a,b)
+                    {
+                        return b.length - a.length; //DSC, For Ascending order use: b - a
+                    }
+                )
                 }
+                console.log(search_qry);
                 session.dialogData.search_qry=search_qry
                 final1()   
             })
