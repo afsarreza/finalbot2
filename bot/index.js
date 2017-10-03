@@ -28,8 +28,8 @@ var bot = new builder.UniversalBot(connector, function (session) {
                 .alt('Algonox Bot')
         ])
         .buttons([
-            builder.CardAction.imBack(session, session.gettext(MainOptions.Shop), MainOptions.Shop),
-            builder.CardAction.imBack(session, session.gettext(MainOptions.Support), MainOptions.Support)
+            builder.CardAction.postBack(session, session.gettext(MainOptions.Shop), MainOptions.Shop),
+            builder.CardAction.postBack(session, session.gettext(MainOptions.Support), MainOptions.Support)
         ]);
 
     session.send(new builder.Message(session)
@@ -106,11 +106,6 @@ bot.dialog('restart',function (session, args, next) {
 .triggerAction({
     matches: /^restart$/i
 });
-
-
-
-
-
 
 // Cache of localized regex to match selection from main options
 var LocalizedRegexCache = {};
