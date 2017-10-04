@@ -4,7 +4,7 @@ var builder = require('botbuilder');
 var lib = new builder.Library('shop');
 lib.dialog('/', [
     function(session){
-    builder.Prompts.text(session,"Sure! What do you want to buy?")
+    builder.Prompts.text(session,"What would you like to buy?")
     },
     function (session) {
         session.dialogData.msg = session.message.text
