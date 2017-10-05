@@ -194,6 +194,7 @@ module.exports = {
                                         "id": "myColor",
                                         "style": "compact",
                                         "placeholder": "Choose Color",
+                                        "value":"Color",
                                         "isMultiSelect": false,
                                         "choices": [
                                             {
@@ -223,7 +224,7 @@ module.exports = {
                                     {
                                         "type": "Input.Toggle",
                                         "id": "IsReturnPolicy",
-                                        "title": "ReturnPolicy?",
+                                        "title": "Return Policy?",
                                         "valueOn": "true",
                                         "valueOff": "false"
 
@@ -334,6 +335,7 @@ module.exports = {
                                 "type": "Input.ChoiceSet",
                                 "id": "myColor",
                                 "style": "compact",
+                                "value":"Color",
                                 "placeholder": "Choose Color",
                                 "isMultiSelect": false,
                                 "choices": [
@@ -364,7 +366,7 @@ module.exports = {
                             {
                                 "type": "Input.Toggle",
                                 "id": "IsReturnPolicy",
-                                "title": "ReturnPolicy?",
+                                "title": "Return Policy?",
                                 "valueOn": "true",
                                 "valueOff": "false"
 
