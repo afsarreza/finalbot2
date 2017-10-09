@@ -137,7 +137,7 @@ module.exports = {
                                 for (var i = 0; i < resultsobj.numFound; i++) {
                                     allProducts.push({
                                         name: resultsobj.docs[i].title.toString(),
-                                        // name:"Algonox Product " + i,
+                                        // name:"Retail Bot Product " + i,
                                         imageUrl: resultsobj.docs[i]['url'],
                                         price: parseFloat((resultsobj.docs[i]['formattedPrice']).slice(1)),
                                     })

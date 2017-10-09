@@ -25,7 +25,7 @@ var bot = new builder.UniversalBot(connector, function (session) {
         .images([
             new builder.CardImage(session)
                 .url('https://i.ytimg.com/vi/b6ogZ2XW55k/maxresdefault.jpg')
-                .alt('Algonox Bot')
+                .alt('Retail Bot Bot')
         ])
         .buttons([
             builder.CardAction.postBack(session, session.gettext(MainOptions.Shop), MainOptions.Shop),

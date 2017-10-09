@@ -17,7 +17,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Register your web app routes here
 app.get('/', function (req, res, next) {
-  res.render('index', { title: 'Algonox Technologoes' });
+  res.render('index', { title: 'Retail Bot Technologoes' });
 });
 
 // Register Checkout page

@@ -26,14 +26,14 @@ router.get('/', function (req, res, next) {
 
       // Show completion
       return res.render('checkout/completed', {
-        title: 'AlgonoxTechnologies - Order Processed',
+        title: 'Retail BotTechnologies - Order Processed',
         order: order
       });
     }
 
     // Payment form
     return res.render('checkout/index', {
-      title: 'AlgonoxTechnologies - Order Checkout',
+      title: 'Retail BotTechnologies - Order Checkout',
       order: order
     });
 
@@ -64,7 +64,7 @@ router.post('/', function (req, res, next) {
 
     // Show completion
     return res.render('checkout/completed', {
-      title: 'AlgonoxTechnologies - Order processed',
+      title: 'Retail BotTechnologies - Order processed',
       order: processedOrder
     });
 

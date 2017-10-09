@@ -86,7 +86,7 @@ lib.dialog('/',
                     for(var i =0; i < resultsobj.numFound; i++){
                         allProducts.push({
                             name:resultsobj.docs[i]['title'].toString(),
-                            // name:"Algonox Product " + i,
+                            // name:"Retail Bot Product " + i,
                             imageUrl:resultsobj.docs[i]['url'],
                             price:parseFloat((resultsobj.docs[i]['formattedPrice']).slice(1)),
                         })
@@ -129,7 +129,7 @@ lib.dialog('/',
         },
         
         function (session, args, next) {
-            session.send('choose_bouquet_from_category',"Algonox Product's");
+            session.send('choose_bouquet_from_category',"Retail Bot Product's");
             session.message.text = null;            // remove message so next step does not take it as input   
             next()
         },
