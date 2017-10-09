@@ -6,7 +6,7 @@ var SolrNode = require('solr-node');
 var count = 0
 var client = new Client();
 
-var client1 = solr.createClient('54.158.112.215', '8080', 'ecommerce_1');
+var client1 = solr.createClient('54.158.112.215', '8080', 'ecommerce_2');
 
 var defaultSettings = {
     showMoreTitle: 'title_show_more',
@@ -138,7 +138,7 @@ module.exports = {
                                     allProducts.push({
                                         name: resultsobj.docs[i].title.toString(),
                                         // name:"Algonox Product " + i,
-                                        imageUrl: '',
+                                        imageUrl: resultsobj.docs[i]['url'],
                                         price: parseFloat((resultsobj.docs[i]['formattedPrice']).slice(1)),
                                     })
                                 }
