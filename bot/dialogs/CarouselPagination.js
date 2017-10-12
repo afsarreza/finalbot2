@@ -132,10 +132,14 @@ module.exports = {
                                         "type": "Input.ChoiceSet",
                                         "id": "myColor",
                                         "style": "compact",
-                                        "placeholder": "Choose Color",
-                                        "value":"Color",
+                                        // "placeholder": "Choose Color",
+                                        "value":"Choose Color",
                                         "isMultiSelect": false,
                                         "choices": [
+                                            {   
+                                                "title": "Choose Color",
+                                                "value": "Choose Color"
+                                            },
                                             {
                                                 "title": "Gray",
                                                 "value": "Gray"
@@ -218,10 +222,14 @@ module.exports = {
                                             "type": "Input.ChoiceSet",
                                             "id": "myColor",
                                             "style": "compact",
-                                            "placeholder": "Choose Color",
-                                            "value":"Color",
+                                            // "placeholder": "Choose Color",
+                                            "value":"Choose Color",
                                             "isMultiSelect": false,
                                             "choices": [
+                                                {   
+                                                    "title": "Choose Color",
+                                                    "value": "Choose Color"
+                                                },
                                                 {
                                                     "title": "Gray",
                                                     "value": "Gray"
@@ -326,10 +334,14 @@ module.exports = {
                                         "type": "Input.ChoiceSet",
                                         "id": "myColor",
                                         "style": "compact",
-                                        "placeholder": "Choose Color",
-                                        "value":"Color",
+                                        // "placeholder": "Choose Color",
+                                        "value":"Choose Color",
                                         "isMultiSelect": false,
                                         "choices": [
+                                            {   
+                                                "title": "Choose Color",
+                                                "value": "Choose Color"
+                                            },
                                             {
                                                 "title": "Gray",
                                                 "value": "Gray"
@@ -412,10 +424,14 @@ module.exports = {
                                             "type": "Input.ChoiceSet",
                                             "id": "myColor",
                                             "style": "compact",
-                                            "placeholder": "Choose Color",
-                                            "value":"Color",
+                                            // "placeholder": "Choose Color",
+                                            "value":"Choose Color",
                                             "isMultiSelect": false,
                                             "choices": [
+                                                {   
+                                                    "title": "Choose Color",
+                                                    "value": "Choose Color"
+                                                },
                                                 {
                                                     "title": "Gray",
                                                     "value": "Gray"
@@ -473,21 +489,22 @@ module.exports = {
                             session.send(msg)
                         } 
                     });
-                
-
                 }
+                //Handling the button Shop Again in adaptive cards
                 else if(filterobj1.opt === "Shop Again")
                 {
                     console.log("The shop again button is successful")
                     // session.send("The shop again button is successful")
                     session.beginDialog('shop:/');
                 }
+                //Handling Leave button in adaptive cards
                 else if(filterobj1.opt === "Leave")
                 {
                     console.log("The leave button is successful")
                     // session.send("The leave button is successful")
                     session.endDialog('Good Bye! Have a nice day :)')
                 }
+                //Handling Apply filters button in adaptive cards
                 else if(filterobj1.opt === "Apply Filters")
                 {
                     //session.send("This apply filter is working successfully")
@@ -530,7 +547,7 @@ module.exports = {
                             final2()
                         })
 
-                }``
+                }
                 //The final2 is for searching the query in the solr
                 function final2() {
                     //console.log("I AM HERE FINAL22")
@@ -604,10 +621,14 @@ module.exports = {
                                         "type": "Input.ChoiceSet",
                                         "id": "myColor",
                                         "style": "compact",
-                                        "placeholder": "Choose Color",
-                                        "value":"Color",
+                                        // "placeholder": "Choose Color", 
+                                        "value":"Choose Color",
                                         "isMultiSelect": false,
                                         "choices": [
+                                            {   
+                                                "title": "Choose Color",
+                                                "value": "Choose Color"
+                                            },
                                             {
                                                 "title": "Gray",
                                                 "value": "Gray"
@@ -690,10 +711,14 @@ module.exports = {
                                             "type": "Input.ChoiceSet",
                                             "id": "myColor",
                                             "style": "compact",
-                                            "placeholder": "Choose Color",
-                                            "value":"Color",
+                                            // "placeholder": "Choose Color",
+                                            "value":"Choose Color",
                                             "isMultiSelect": false,
                                             "choices": [
+                                                {   
+                                                    "title": "Choose Color",
+                                                    "value": "Choose Color"
+                                                },
                                                 {
                                                     "title": "Gray",
                                                     "value": "Gray"
@@ -764,7 +789,9 @@ module.exports = {
                     // console.log("End this is inside of getQuery")
 
                     //Applying filters and building query based on that
-                    if (filterobj.myColor === "Choose Color") {
+                    if (filterobj.myColor === "Choose Color")
+                    // if (filterobj.myColor === ) 
+                     {
                         filterobj.myColor = "*";
                     }
 
@@ -827,10 +854,14 @@ module.exports = {
                             "type": "Input.ChoiceSet",
                             "id": "myColor",
                             "style": "compact",
-                            "value":"Color",
-                            "placeholder": "Choose Color",
+                            "value":"Choose Color",
+                            // "placeholder": "Choose Color",
                             "isMultiSelect": false,
                             "choices": [
+                                {   
+                                    "title": "Choose Color",
+                                    "value": "Choose Color"
+                                },
                                 {
                                     "title": "Gray",
                                     "value": "Gray"
