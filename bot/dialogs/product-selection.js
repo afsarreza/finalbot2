@@ -116,10 +116,10 @@ lib.dialog('/',
             // console.log("The string searched is " + stringsearched)
         
             //Defines the properties and gives the values to be searched in those properties
-            var opt = { title: [stringsearched] };
+            var opt = { description: [stringsearched] };
         
             //Creates the query with multiple search terms retrieved from stringssearched
-            if (opt.title) qb.where('title').in(opt.title);
+            if (opt.title) qb.where('description').in(opt.title);
 
             //Connects to the Solr server and passes the query.            
             var query = client1.createQuery().q(qb.build()).start(0).rows(1000000);

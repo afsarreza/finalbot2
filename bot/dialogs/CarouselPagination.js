@@ -811,7 +811,7 @@ module.exports = {
                         filterobj.IsReturnPolicy = '*'
                     }
 
-                    var query = client1.query().q({ title: search_qry }).matchFilter('color', filterobj.myColor).matchFilter('sale', filterobj.IsSale).matchFilter('isReturnPolicy', filterobj.IsReturnPolicy).start(0).rows(10000)
+                    var query = client1.query().q({ description: search_qry }).matchFilter('color', filterobj.myColor).matchFilter('sale', filterobj.IsSale).matchFilter('isReturnPolicy', filterobj.IsReturnPolicy).start(0).rows(10000)
 
                     console.log("This is inside of getQuery")                    
                     console.log(query)
