@@ -7,7 +7,7 @@ var count = 0
 var client = new Client();
 
 var client1 = solr.createClient('54.158.112.215', '8080', 'ecommerce_2');
-// var client1 = solr.createClient('localhost', '8983', 'ecommerce_2');
+// var client1 = solr.createClient('localhost', '8983', 'ecommerce_2');node 
 
 var defaultSettings = {
     showMoreTitle: 'title_show_more',
@@ -564,6 +564,27 @@ module.exports = {
                                 // console.log("The total number of results are " +resultsobj.numFound)
                                 console.log("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYy")
                                 // console.log(resultsobj.docs[1])
+                                console.log("************************************************************************************")
+                                console.log("************************************************************************************")
+                                console.log("**                                 The                                            **")
+                                console.log("**                                                                                **")
+                                console.log("**                             total number                                       **")
+                                console.log("**                                                                                **")
+                                console.log("**                                  of                                            **")
+                                console.log("**                                                                                **")
+                                console.log("**                      results found are "   + resultsobj.numFound + "           **")
+                                console.log("**                                                                                **")
+                                console.log("**                                                                                **")
+                                console.log("**              The number of pages are to have are                               **")
+                                console.log("**                                                                                **")
+                                console.log("**             "   + (resultsobj.numFound/5) + "                                  **")
+                                console.log("**                                                                                **")
+                                console.log("**                                                                                **")
+                                console.log("**                                                                                **")
+                                console.log("************************************************************************************")
+                                console.log("************************************************************************************")
+                                
+                                
                                 // console.log(resultsobj.numFound)
                                 // console.log(typeof (resultsobj.docs))
                                 // console.log(resultsobj.docs)
@@ -811,7 +832,7 @@ module.exports = {
                         filterobj.IsReturnPolicy = '*'
                     }
 
-                    var query = client1.query().q({ description : search_qry }).matchFilter('color', filterobj.myColor).matchFilter('sale', filterobj.IsSale).matchFilter('isReturnPolicy', filterobj.IsReturnPolicy).start(0).rows(10000)
+                    var query = client1.query().q({ description: search_qry }).matchFilter('color', filterobj.myColor).matchFilter('sale', filterobj.IsSale).matchFilter('isReturnPolicy', filterobj.IsReturnPolicy).start(0).rows(10000)
 
                     console.log("This is inside of getQuery")                    
                     console.log(query)
