@@ -122,8 +122,8 @@ lib.dialog('/',
             // if (opt.title) qb.where('title').in(opt.title);
 
             //Connects to the Solr server and passes the query.            
-            // var query = client1.createQuery().q(qb.build()).start(0).rows(1000000);
-            var query = client1.query().q({ title: search_qry }).start(0).rows(10000)
+            var query = client1.createQuery().q(qb.build()).start(0).rows(1000000);
+            // var query = client1.query().q({ title: search_qry }).start(0).rows(10000)
             
             return (query)
         }
