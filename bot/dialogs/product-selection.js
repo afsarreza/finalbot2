@@ -21,18 +21,8 @@ var SolrNode = require('solr-node');
 
 var client = new Client();
 
-// var client1 = solr.createClient('54.158.112.215', '8080', 'ecommerce_2');
-var client1 = solr.createClient('localhost','8983','ecommerce_1')
-/* var client2 = new SolrNode({
-    host: '54.158.112.215',
-    port: '8080',
-    core: 'ecommerce_2',
-    protocol: 'http'}) */
-var client2 = new SolrNode({
-        host: 'localhost',
-        port: '8983',
-        core: 'ecommerce_1',
-        protocol: 'http'})
+var client1 = solr.createClient('54.158.112.215', '8080', 'ecommerce_1');
+// var client1 = solr.createClient('localhost', '8983', 'ecommerce_1');
 
 
 var lib = new builder.Library('product-selection');
@@ -63,46 +53,60 @@ lib.dialog('/',
                     reslen = Object.keys(data).length;
                     search_JJ = []
                     search_NNS = []
-                    search_NNPS=[]
                     search_NN=[]
                     search_NNP=[]
+                    search_NNPS=[]
                     B = [undefined]
+
+
                     for (var i = 0; i < reslen; i ++)
-                    {
-                        search_JJ.push(data[i]['JJ'])
-                        search_NNS.push(data[i]['NNS'])
-                        search_NNPS.push(data[i]['NNPS'])
-                        search_NNP.push(data[i]['NNP'])
-                        search_NN.push(data[i]['NN']) 
+                      {
+                            if(data[i]['JJ'] != null)
+                            {
+                                search_JJ.push(data[i]['JJ'])
+                            }
+                            if (data[i]['NNS'] != undefined)
+                            {
+                                search_NNS.push(data[i]['NNS'])
+                                // console.log(search_NNS)                
+                            }
+                            if(data[i]['NNPS'] != undefined)
+                            {
+                                search_NNPS.push(data[i]['NNPS'])
+                                // console.log(search_NNPS)
+                            }
+                            if (data[i]['NN'] != undefined)
+                            {
+                                search_NN.push(data[i]['NN'])
+                                // console.log(search_NN)                
+                            }
+                            if (data[i]['NNP'] != undefined)
+                            {
+                                search_NNP.push(data[i]['NNP'])
+                                // console.log(search_NNP)              
+                            }
                     }
 
-                    var test = search_NNS.concat(search_NNPS,search_NNP,search_NN)
-                    var test1 = new Set(test)
-                    // console.log(test1)
-                    var search_NNS1 = [...test1]
-                    console.log(search_NNS1)
+                    var search_N1 = search_NNS.concat(search_NN,search_NNP,search_NNPS)
+
 
                     diff = search_JJ.filter(x => B.indexOf(x) < 0 );
-                    diff_NNS = search_NNS1.filter(x => B.indexOf(x) < 0); 
+                    diff_NNS = search_N1.filter(x => B.indexOf(x) < 0); 
 
                     if(diff.length > 0)
                     {
-                    for (var i=0;i<diff.length;i++)
-                    {
-                       for (var j=0;j<diff_NNS.length;j++)
-                       {
-                        new_word = diff[i] + " " + diff_NNS[j]
-                        search_qry.push(new_word)
-                       } 
-                    }
-                    }   
-                    else 
-                    {
-                        for (var j=0;j<diff_NNS.length;j++)
+                        for (var i=0;i<diff.length;i++)
                         {
-                         new_word = diff_NNS[j]
-                         search_qry.push(new_word)
-                        } 
+                           for (var j=0;j<diff_NNS.length;j++)
+                           {
+                            new_word = diff[i] + " " + diff_NNS[j]
+                            search_qry.push(new_word)
+                           } 
+                        }
+                    }
+                    else
+                    {
+                        search_qry = search_N1
                     }
 
                     search_qry.sort(function(a,b)
@@ -115,6 +119,7 @@ lib.dialog('/',
                 session.dialogData.search_qry=search_qry
                 querynrender()   
             })
+            
         }
         function getPOS(message)
         {
@@ -196,22 +201,18 @@ lib.dialog('/',
             //True coonversion of array into string
             stringsearched = JSON.stringify(search_qry);
             
-            console.log(stringsearched)
+        
             //Defines the properties and gives the values to be searched in those properties
-            var opt = { title: [search_qry] };
-            // %27red%20shoes%27
+            var opt = { title: [stringsearched] };
         
             //Creates the query with multiple search terms retrieved from stringssearched
             if (opt.title) qb.where('title').in(opt.title);
 
             //Connects to the Solr server and passes the query.            
             var query = client1.createQuery().q(qb.build()).start(0).rows(1000000);
-            // search_qry1 = search_qry.toString();
-            // var query = client1.query().q({ title: search_qry1 }).start(0).rows(10000)
-
-            // var query = client2.query().q({title:('red shoes')});
+            // var query = client1.query().q({ title: search_qry }).start(0).rows(10000)
             
-            console.log(query)
+            console.log(JSON.stringify(query))
             return (query)
         }
         getSearchQuery()
