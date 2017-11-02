@@ -21,9 +21,22 @@ var SolrNode = require('solr-node');
 
 var client = new Client();
 
-var client1 = solr.createClient('54.158.112.215', '8080', 'ecommerce_2');
+// var client1 = solr.createClient('54.158.112.215', '8080', 'ecommerce_2');
+var client1 = solr.createClient('localhost','8983','ecommerce_1')
+/* var client2 = new SolrNode({
+    host: '54.158.112.215',
+    port: '8080',
+    core: 'ecommerce_2',
+    protocol: 'http'}) */
+var client2 = new SolrNode({
+        host: 'localhost',
+        port: '8983',
+        core: 'ecommerce_1',
+        protocol: 'http'})
+
 
 var lib = new builder.Library('product-selection');
+
 
 // These steps are defined as a waterfall dialog,
 // but the control is done manually by calling the next func argument.
@@ -32,11 +45,11 @@ lib.dialog('/',
         // First message
         
         function (session, args, next) {
-                
+        
+        
         function getSearchQuery(){
-            //session.send("ITS BEGINNIG HEREEEEEEEeee"),
             allProducts=[]
-            url_te = "http://34.201.62.199:7777/nlpapi/tri?text=" + session.message.text;
+            url_pos = "http://54.158.112.215:8000/pos?line=" + session.message.text;
             search_qry=[]
             var args =
             {
@@ -45,36 +58,107 @@ lib.dialog('/',
             };
             var client = new Client();
             client.post
-            (url_te, args, function (data, response) {
-                // console.log("The length of the variable data is " + data.length);
+            (url_pos, args, function (data, response) {
                 //Handles when triple extarction yields null results
-                if (data.length == 0) {
-                    search_qry.push(session.message.text);
-                    // session.send("You wanted to buy " + msg + ". Here are the results." + search_qry);
-                }
-        
-                //Handles when triple extraction yields results
-                else {
                     reslen = Object.keys(data).length;
-
-                    for (var i = 0; i < reslen; i++) {
-                        search_qry.push(data[i]['object']);
+                    search_JJ = []
+                    search_NNS = []
+                    search_NNPS=[]
+                    search_NN=[]
+                    search_NNP=[]
+                    B = [undefined]
+                    for (var i = 0; i < reslen; i ++)
+                    {
+                        search_JJ.push(data[i]['JJ'])
+                        search_NNS.push(data[i]['NNS'])
+                        search_NNPS.push(data[i]['NNPS'])
+                        search_NNP.push(data[i]['NNP'])
+                        search_NN.push(data[i]['NN']) 
                     }
-                    //console.log(search_qry);
+
+                    var test = search_NNS.concat(search_NNPS,search_NNP,search_NN)
+                    var test1 = new Set(test)
+                    // console.log(test1)
+                    var search_NNS1 = [...test1]
+                    console.log(search_NNS1)
+
+                    diff = search_JJ.filter(x => B.indexOf(x) < 0 );
+                    diff_NNS = search_NNS1.filter(x => B.indexOf(x) < 0); 
+
+                    if(diff.length > 0)
+                    {
+                    for (var i=0;i<diff.length;i++)
+                    {
+                       for (var j=0;j<diff_NNS.length;j++)
+                       {
+                        new_word = diff[i] + " " + diff_NNS[j]
+                        search_qry.push(new_word)
+                       } 
+                    }
+                    }   
+                    else 
+                    {
+                        for (var j=0;j<diff_NNS.length;j++)
+                        {
+                         new_word = diff_NNS[j]
+                         search_qry.push(new_word)
+                        } 
+                    }
+
                     search_qry.sort(function(a,b)
                     {
                         return b.length - a.length; //DSC, For Ascending order use: b - a
-                    }
-                )
-                }
+                    })
+                console.log("$$$$$$$$$$$$$")
                 console.log(search_qry);
+                console.log("$$$$$$$$$$$$$")                
                 session.dialogData.search_qry=search_qry
-                final1()   
+                querynrender()   
             })
-            
         }
-        function final2(){
-            //console.log("I AM HERE FINAL22")
+        function getPOS(message)
+        {
+            search_JJ=[] //Array of adjectives  
+            search_NNS=[] //Array of Nouns
+            // search_qry=[] //Search terms
+            B = [undefined]    
+            search_new = []
+            url_pos = "http://54.158.112.215:8000/pos?line=" + message;
+            var args =
+            {
+                data: { test: "hello" },
+                headers: { "Content-Type": "application/json" }
+            };
+        
+            client.post(url_pos,args,function(data, response)
+            {
+                reslen = Object.keys(data).length; 
+                // console.log("The length of the object is in POSTAG is  " + reslen)  
+                
+                for (var i = 0; i < reslen; i ++)
+                {
+                    search_JJ.push(data[i]['JJ'])
+                    search_NNS.push(data[i]['NNS'])
+                }
+                
+                diff = search_JJ.filter(x => B.indexOf(x) < 0 );
+                diff_NNS = search_NNS.filter(x => B.indexOf(x) < 0);  
+        
+                for (var i=0;i<diff.length;i++)
+                {
+                   for (var j=0;j<diff_NNS.length;j++)
+                   {
+                    new_word = diff[i] + " " + diff_NNS[j]
+                    search_qry.push(new_word)
+                   } 
+                }
+                console.log(search_qry) ;  
+                querynrender()
+                return "POS Success"      
+            })
+        }
+        function resrender(){
+            //console.log("I AM HERE resrender2")
             //console.log(query)
             client1.search
             (getQuery(search_qry), function (err, obj) {
@@ -91,15 +175,15 @@ lib.dialog('/',
                             price:parseFloat((resultsobj.docs[i]['formattedPrice']).slice(1)),
                         })
                     }
-                    final3()
+                    nextpage()
                 }
             })
         }
-        function final1(){
+        function querynrender(){
             query = getQuery(search_qry)
-            final2()
+            resrender()
         }
-        function final3(){
+        function nextpage(){
             session.dialogData.allProducts=allProducts
             next()
         }
@@ -111,20 +195,23 @@ lib.dialog('/',
         
             //True coonversion of array into string
             stringsearched = JSON.stringify(search_qry);
-            //stringsearched=[]
-            // console.log(typeof(stringsearched))
-            // console.log("The string searched is " + stringsearched)
-        
+            
+            console.log(stringsearched)
             //Defines the properties and gives the values to be searched in those properties
-            var opt = { title: [stringsearched] };
+            var opt = { title: [search_qry] };
+            // %27red%20shoes%27
         
             //Creates the query with multiple search terms retrieved from stringssearched
-            // if (opt.title) qb.where('title').in(opt.title);
+            if (opt.title) qb.where('title').in(opt.title);
 
             //Connects to the Solr server and passes the query.            
             var query = client1.createQuery().q(qb.build()).start(0).rows(1000000);
-            // var query = client1.query().q({ title: search_qry }).start(0).rows(10000)
+            // search_qry1 = search_qry.toString();
+            // var query = client1.query().q({ title: search_qry1 }).start(0).rows(10000)
+
+            // var query = client2.query().q({title:('red shoes')});
             
+            console.log(query)
             return (query)
         }
         getSearchQuery()
@@ -135,8 +222,8 @@ lib.dialog('/',
             session.message.text = null;            // remove message so next step does not take it as input   
             next()
         },
+
         // Show Products
-        
         function (session, args, next) {
             
             CarouselPagination.create(
