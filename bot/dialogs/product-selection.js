@@ -21,8 +21,8 @@ var SolrNode = require('solr-node');
 
 var client = new Client();
 
-var client1 = solr.createClient('54.158.112.215', '8080', 'ecommerce_1');
-// var client1 = solr.createClient('localhost', '8983', 'ecommerce_1');
+var client1 = solr.createClient('54.158.112.215', '8080', 'ecommerce_2');
+// var client1 = solr.createClient('localhost', '8983', 'ecommerce_2');
 
 
 var lib = new builder.Library('product-selection');
@@ -172,6 +172,7 @@ lib.dialog('/',
                 }
                 else {
                     resultsobj = obj.response;
+                    console.log(resultsobj.numFound)
                     for(var i =0; i < resultsobj.numFound; i++){
                         allProducts.push({
                             name:resultsobj.docs[i]['title'].toString(),
@@ -199,7 +200,8 @@ lib.dialog('/',
             // var opt = {title:['guestbook','heater']};
         
             //True coonversion of array into string
-            stringsearched = JSON.stringify(search_qry);
+            // stringsearched = JSON.stringify(search_qry);
+            stringsearched = search_qry.toString()
             
         
             //Defines the properties and gives the values to be searched in those properties
@@ -209,9 +211,8 @@ lib.dialog('/',
             if (opt.title) qb.where('title').in(opt.title);
 
             //Connects to the Solr server and passes the query.            
-            var query = client1.createQuery().q(qb.build()).start(0).rows(1000000);
-            // var query = client1.query().q({ title: search_qry }).start(0).rows(10000)
-            
+            // var query = client1.createQuery().q(qb.build()).start(0).rows(1000000);
+            var query = client1.query().q({ title: stringsearched }).start(0).rows(10000)           
             console.log(JSON.stringify(query))
             return (query)
         }
